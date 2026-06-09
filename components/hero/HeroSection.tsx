@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
+import Image from "next/image";
 
 const container: Variants = {
   hidden: {},
@@ -107,32 +108,7 @@ function AvatarCard() {
       />
 
       {/* Portrait */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="relative w-[65%] h-[78%]">
-          {/* Torso */}
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 rounded-t-xl"
-            style={{ width: "78%", height: "46%", background: "linear-gradient(180deg, #1a1a2e, #16162a)" }} />
-          {/* Collar */}
-          <div className="absolute left-1/2 -translate-x-1/2 rounded-t"
-            style={{ bottom: "42%", width: "28%", height: "8%", background: "#22223a" }} />
-          {/* Neck */}
-          <div className="absolute left-1/2 -translate-x-1/2 rounded"
-            style={{ bottom: "43%", width: "17%", height: "11%", background: "#a0704a" }} />
-          {/* Head */}
-          <div className="absolute left-1/2 -translate-x-1/2"
-            style={{ bottom: "52%", width: "54%", height: "46%", background: "#b07848",
-              borderRadius: "46% 46% 42% 42% / 54% 54% 46% 46%", overflow: "hidden" }}>
-            <div style={{ position:"absolute", top:"-45%", left:"-12%", width:"124%", height:"72%", background:"#120a03", borderRadius:"50% 50% 18% 18%" }} />
-            <div style={{ position:"absolute", top:"-60%", left:"22%", width:"56%", height:"55%", background:"#0d0702", clipPath:"polygon(18% 100%, 50% 0%, 82% 100%)" }} />
-            <div style={{ position:"absolute", top:"-30%", left:"-18%", width:"30%", height:"80%", background:"#160c04", borderRadius:"50%" }} />
-            <div style={{ position:"absolute", top:"-30%", right:"-18%", width:"30%", height:"80%", background:"#160c04", borderRadius:"50%" }} />
-            <div style={{ position:"absolute", top:"46%", left:"20%", width:"16%", height:"11%", background:"#1a0e05", borderRadius:"50%" }} />
-            <div style={{ position:"absolute", top:"46%", right:"20%", width:"16%", height:"11%", background:"#1a0e05", borderRadius:"50%" }} />
-            <div style={{ position:"absolute", top:"62%", left:"42%", width:"16%", height:"9%", background:"#8a5c35", borderRadius:"50% 50% 40% 40%" }} />
-            <div style={{ position:"absolute", top:"76%", left:"32%", width:"36%", height:"5%", background:"#7a4020", borderRadius:"0 0 50% 50%" }} />
-          </div>
-        </div>
-      </div>
+      <Image src="/portrait.png" alt="Portrait of Adeleke Olasope" fill style={{ objectFit: "cover" }} />
 
       {/* Badge */}
       <div className="absolute bottom-0 left-0 right-0 p-3 border-t border-border"

@@ -31,6 +31,16 @@ const sectionStyle: React.CSSProperties = {
   padding: "24px", background: "#18182a", marginBottom: "16px",
 };
 
+function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <label style={labelStyle}>{label}</label>
+      {children}
+      {hint && <p style={{ fontSize: "11px", color: "#505070", marginTop: "4px" }}>{hint}</p>}
+    </div>
+  );
+}
+
 interface ProjectEditorProps { project?: Project; mode: "create" | "edit"; }
 
 export function ProjectEditor({ project, mode }: ProjectEditorProps) {
@@ -47,8 +57,8 @@ export function ProjectEditor({ project, mode }: ProjectEditorProps) {
       challenges: project.challenges, outcome: project.outcome ?? "",
     } : DEFAULT_FORM
   );
-  const [saving,  setSaving]  = useState(false);
-  const [error,   setError]   = useState("");
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
   const set = (key: keyof ProjectFormData, value: unknown) =>
@@ -70,7 +80,7 @@ export function ProjectEditor({ project, mode }: ProjectEditorProps) {
         techStack: form.isNda ? undefined : toArr(form.techStack),
       };
 
-      const url    = mode === "create" ? "/api/projects" : `/api/projects/${project!.id}`;
+      const url = mode === "create" ? "/api/projects" : `/api/projects/${project!.id}`;
       const method = mode === "create" ? "POST" : "PATCH";
 
       const res = await fetch(url, {
@@ -86,15 +96,6 @@ export function ProjectEditor({ project, mode }: ProjectEditorProps) {
     } finally { setSaving(false); }
   }
 
-  function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
-    return (
-      <div>
-        <label style={labelStyle}>{label}</label>
-        {children}
-        {hint && <p style={{ fontSize: "11px", color: "#505070", marginTop: "4px" }}>{hint}</p>}
-      </div>
-    );
-  }
 
   const textareaStyle: React.CSSProperties = { ...inputStyle, resize: "vertical", minHeight: "90px" };
 
@@ -111,21 +112,21 @@ export function ProjectEditor({ project, mode }: ProjectEditorProps) {
             <input style={inputStyle} value={form.name} required placeholder="e.g. BizDocx"
               onChange={(e) => { set("name", e.target.value); if (mode === "create") set("slug", e.target.value.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")); }}
               onFocus={(e) => (e.target.style.borderColor = "#7c6af7")}
-              onBlur={(e)  => (e.target.style.borderColor = "#252538")}
+              onBlur={(e) => (e.target.style.borderColor = "#252538")}
             />
           </Field>
           <Field label="Slug" hint="Auto-generated from name">
             <input style={inputStyle} value={form.slug} required placeholder="e.g. bizdocx"
               onChange={(e) => set("slug", e.target.value)}
               onFocus={(e) => (e.target.style.borderColor = "#7c6af7")}
-              onBlur={(e)  => (e.target.style.borderColor = "#252538")}
+              onBlur={(e) => (e.target.style.borderColor = "#252538")}
             />
           </Field>
           <Field label="Icon (emoji)">
             <input style={inputStyle} value={form.icon} placeholder="📄"
               onChange={(e) => set("icon", e.target.value)}
               onFocus={(e) => (e.target.style.borderColor = "#7c6af7")}
-              onBlur={(e)  => (e.target.style.borderColor = "#252538")}
+              onBlur={(e) => (e.target.style.borderColor = "#252538")}
             />
           </Field>
           <Field label="Accent Colour">
@@ -136,7 +137,7 @@ export function ProjectEditor({ project, mode }: ProjectEditorProps) {
               <input style={{ ...inputStyle, flex: 1 }} value={form.color} placeholder="#7c6af7"
                 onChange={(e) => set("color", e.target.value)}
                 onFocus={(e) => (e.target.style.borderColor = "#7c6af7")}
-                onBlur={(e)  => (e.target.style.borderColor = "#252538")}
+                onBlur={(e) => (e.target.style.borderColor = "#252538")}
               />
             </div>
           </Field>
@@ -144,7 +145,7 @@ export function ProjectEditor({ project, mode }: ProjectEditorProps) {
             <select style={{ ...inputStyle, cursor: "pointer" }} value={form.status}
               onChange={(e) => set("status", e.target.value as ProjectFormData["status"])}
               onFocus={(e) => (e.target.style.borderColor = "#7c6af7")}
-              onBlur={(e)  => (e.target.style.borderColor = "#252538")}
+              onBlur={(e) => (e.target.style.borderColor = "#252538")}
             >
               <option value="live">Live</option>
               <option value="testing">Testing</option>
@@ -155,21 +156,21 @@ export function ProjectEditor({ project, mode }: ProjectEditorProps) {
             <input style={inputStyle} value={form.platform} placeholder="Google Play Store"
               onChange={(e) => set("platform", e.target.value)}
               onFocus={(e) => (e.target.style.borderColor = "#7c6af7")}
-              onBlur={(e)  => (e.target.style.borderColor = "#252538")}
+              onBlur={(e) => (e.target.style.borderColor = "#252538")}
             />
           </Field>
           <Field label="Store URL">
             <input style={inputStyle} value={form.storeUrl ?? ""} placeholder="https://play.google.com/…"
               onChange={(e) => set("storeUrl", e.target.value)}
               onFocus={(e) => (e.target.style.borderColor = "#7c6af7")}
-              onBlur={(e)  => (e.target.style.borderColor = "#252538")}
+              onBlur={(e) => (e.target.style.borderColor = "#252538")}
             />
           </Field>
           <Field label="Display Order">
             <input type="number" style={inputStyle} value={form.displayOrder}
               onChange={(e) => set("displayOrder", Number(e.target.value))}
               onFocus={(e) => (e.target.style.borderColor = "#7c6af7")}
-              onBlur={(e)  => (e.target.style.borderColor = "#252538")}
+              onBlur={(e) => (e.target.style.borderColor = "#252538")}
             />
           </Field>
           <Field label="Tags" hint="Comma-separated">
@@ -178,7 +179,7 @@ export function ProjectEditor({ project, mode }: ProjectEditorProps) {
               placeholder="AI, Firebase, Mobile"
               onChange={(e) => set("tags", e.target.value)}
               onFocus={(e) => (e.target.style.borderColor = "#7c6af7")}
-              onBlur={(e)  => (e.target.style.borderColor = "#252538")}
+              onBlur={(e) => (e.target.style.borderColor = "#252538")}
             />
           </Field>
           <div style={{ gridColumn: "1 / -1" }}>
@@ -187,7 +188,7 @@ export function ProjectEditor({ project, mode }: ProjectEditorProps) {
                 placeholder="One-sentence description…"
                 onChange={(e) => set("shortDesc", e.target.value)}
                 onFocus={(e) => (e.target.style.borderColor = "#7c6af7")}
-                onBlur={(e)  => (e.target.style.borderColor = "#252538")}
+                onBlur={(e) => (e.target.style.borderColor = "#252538")}
               />
             </Field>
           </div>
@@ -195,7 +196,7 @@ export function ProjectEditor({ project, mode }: ProjectEditorProps) {
         <div style={{ display: "flex", gap: "24px", marginTop: "16px" }}>
           {[
             { key: "isPublished" as const, label: "Published" },
-            { key: "isNda"       as const, label: "Under NDA (hides tech stack)" },
+            { key: "isNda" as const, label: "Under NDA (hides tech stack)" },
           ].map(({ key, label }) => (
             <label key={key} style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontSize: "13px", color: "#9090b0" }}>
               <input type="checkbox" checked={form[key] as boolean} onChange={(e) => set(key, e.target.checked)}
@@ -219,7 +220,7 @@ export function ProjectEditor({ project, mode }: ProjectEditorProps) {
               placeholder="Next.js, Firebase, Google Gemini, Paystack"
               onChange={(e) => set("techStack", e.target.value)}
               onFocus={(e) => (e.target.style.borderColor = "#7c6af7")}
-              onBlur={(e)  => (e.target.style.borderColor = "#252538")}
+              onBlur={(e) => (e.target.style.borderColor = "#252538")}
             />
           </Field>
         </div>
@@ -233,16 +234,16 @@ export function ProjectEditor({ project, mode }: ProjectEditorProps) {
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           {[
             { key: "inception" as const, label: "✦ Inception", hint: "The problem being solved — why this was built", required: true },
-            { key: "journey"   as const, label: "⟳ Journey",   hint: "The build story (optional)" },
-            { key: "challenges"as const, label: "⚡ Challenges",hint: "Technical obstacles and how you solved them", required: true },
-            { key: "outcome"   as const, label: "◎ Outcome",   hint: "Results, impact, learnings (optional)" },
+            { key: "journey" as const, label: "⟳ Journey", hint: "The build story (optional)" },
+            { key: "challenges" as const, label: "⚡ Challenges", hint: "Technical obstacles and how you solved them", required: true },
+            { key: "outcome" as const, label: "◎ Outcome", hint: "Results, impact, learnings (optional)" },
           ].map(({ key, label, hint, required }) => (
             <Field key={key} label={label} hint={hint}>
               <textarea style={textareaStyle} rows={3} required={required}
                 value={form[key] as string ?? ""}
                 onChange={(e) => set(key, e.target.value)}
                 onFocus={(e) => (e.target.style.borderColor = "#7c6af7")}
-                onBlur={(e)  => (e.target.style.borderColor = "#252538")}
+                onBlur={(e) => (e.target.style.borderColor = "#252538")}
               />
             </Field>
           ))}
@@ -260,7 +261,7 @@ export function ProjectEditor({ project, mode }: ProjectEditorProps) {
           Cancel
         </button>
         {success && <span style={{ fontSize: "13px", color: "#4ade80" }}>✓ Saved</span>}
-        {error   && <span style={{ fontSize: "13px", color: "#fb923c" }}>✗ {error}</span>}
+        {error && <span style={{ fontSize: "13px", color: "#fb923c" }}>✗ {error}</span>}
       </div>
     </form>
   );
