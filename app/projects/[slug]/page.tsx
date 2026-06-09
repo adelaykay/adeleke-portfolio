@@ -91,9 +91,15 @@ export default async function ProjectPage({
               style={{
                 background: project.color + "18",
                 border: `1px solid ${project.color}35`,
+                overflow: "hidden",
               }}
             >
-              {project.icon}
+              {typeof project.icon === "string" && project.icon.startsWith("http") ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={project.icon} alt={project.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              ) : (
+                <span>{project.icon}</span>
+              )}
             </div>
             <div>
               <div className="flex items-center gap-3 mb-1">
@@ -118,16 +124,56 @@ export default async function ProjectPage({
             {project.shortDesc}
           </p>
 
-          {project.storeUrl && (
-            <a
-              href={project.storeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 rounded-lg text-sm font-medium text-white transition-opacity hover:opacity-85"
-              style={{ background: project.color }}
-            >
-              View on {project.platform} ↗
-            </a>
+          {project.status === "testing" ? (
+            <div className="rounded-xl border p-6 mt-6" style={{ background: "var(--surface)", borderColor: "var(--border)" }}>
+              {project.testingLink || project.storeUrl ? (
+                <>
+                  <p className="text-sm leading-relaxed" style={{ color: "var(--text2)", marginBottom: "18px" }}>
+                    This app is currently in closed testing. Join the testing group first, then open the store page to install the app.
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    {project.testingLink ? (
+                    <a
+                      href={project.testingLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium text-white"
+                      style={{ background: "#7c6af7" }}
+                    >
+                      Join closed testing group
+                    </a>
+                  ) : null}
+                  {project.storeUrl ? (
+                    <a
+                      href={project.storeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium text-white"
+                      style={{ background: project.color }}
+                    >
+                      Open on {project.platform || "Store"}
+                    </a>
+                  ) : null}
+                </div>
+                </>
+              ) : (
+                <p className="text-sm leading-relaxed" style={{ color: "var(--text3)" }}>
+                  App coming to {project.platform || "Closed Testing"} soon.
+                </p>
+              )}
+            </div>
+          ) : (
+            project.storeUrl && (
+              <a
+                href={project.storeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 rounded-lg text-sm font-medium text-white transition-opacity hover:opacity-85"
+                style={{ background: project.color }}
+              >
+                View on {project.platform || "Store"} ↗
+              </a>
+            )
           )}
         </div>
 

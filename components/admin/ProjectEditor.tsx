@@ -3,11 +3,14 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "@/lib/firebase/auth";
+import { app } from "@/lib/firebase/config";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import type { Project, ProjectFormData } from "@/types/project";
 
 const DEFAULT_FORM: ProjectFormData = {
   slug: "", name: "", icon: "📦", color: "#7c6af7",
   shortDesc: "", status: "testing", platform: "", storeUrl: "",
+  testingLink: "",
   isNda: false, isPublished: false, displayOrder: 99,
   tags: [], techStack: [],
   inception: "", journey: "", challenges: "", outcome: "",
@@ -50,6 +53,7 @@ export function ProjectEditor({ project, mode }: ProjectEditorProps) {
       slug: project.slug, name: project.name, icon: project.icon,
       color: project.color, shortDesc: project.shortDesc, status: project.status,
       platform: project.platform, storeUrl: project.storeUrl ?? "",
+      testingLink: project.testingLink ?? "",
       isNda: project.isNda, isPublished: project.isPublished,
       displayOrder: project.displayOrder,
       tags: project.tags, techStack: project.techStack ?? [],
@@ -60,9 +64,30 @@ export function ProjectEditor({ project, mode }: ProjectEditorProps) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   const set = (key: keyof ProjectFormData, value: unknown) =>
     setForm((prev) => ({ ...prev, [key]: value }));
+
+  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setUploading(true);
+      const storage = getStorage(app);
+      const path = `projects/icons/${Date.now()}-${file.name}`;
+      const ref = storageRef(storage, path);
+      await uploadBytes(ref, file);
+      const url = await getDownloadURL(ref);
+      set("icon", url);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to upload logo image.");
+    } finally {
+      setUploading(false);
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -122,12 +147,30 @@ export function ProjectEditor({ project, mode }: ProjectEditorProps) {
               onBlur={(e) => (e.target.style.borderColor = "#252538")}
             />
           </Field>
-          <Field label="Icon (emoji)">
-            <input style={inputStyle} value={form.icon} placeholder="📄"
-              onChange={(e) => set("icon", e.target.value)}
-              onFocus={(e) => (e.target.style.borderColor = "#7c6af7")}
-              onBlur={(e) => (e.target.style.borderColor = "#252538")}
-            />
+          <Field label="Project logo">
+            <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+              <div style={{ width: "48px", height: "48px", borderRadius: "12px", overflow: "hidden", background: "#0f1724", border: "1px solid #252538", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {typeof form.icon === "string" && form.icon.startsWith("http") ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={form.icon} alt={form.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                ) : (
+                  <span style={{ fontSize: "20px" }}>{form.icon}</span>
+                )}
+              </div>
+              <div style={{ flex: 1 }}>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  style={{ width: "100%", color: "#e2e2f0" }}
+                />
+                {uploading && (
+                  <p style={{ marginTop: "6px", fontSize: "12px", color: "#9090b0" }}>
+                    Uploading logo…
+                  </p>
+                )}
+              </div>
+            </div>
           </Field>
           <Field label="Accent Colour">
             <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
@@ -152,20 +195,51 @@ export function ProjectEditor({ project, mode }: ProjectEditorProps) {
               <option value="archived">Archived</option>
             </select>
           </Field>
-          <Field label="Platform">
-            <input style={inputStyle} value={form.platform} placeholder="Google Play Store"
-              onChange={(e) => set("platform", e.target.value)}
-              onFocus={(e) => (e.target.style.borderColor = "#7c6af7")}
-              onBlur={(e) => (e.target.style.borderColor = "#252538")}
-            />
-          </Field>
-          <Field label="Store URL">
-            <input style={inputStyle} value={form.storeUrl ?? ""} placeholder="https://play.google.com/…"
-              onChange={(e) => set("storeUrl", e.target.value)}
-              onFocus={(e) => (e.target.style.borderColor = "#7c6af7")}
-              onBlur={(e) => (e.target.style.borderColor = "#252538")}
-            />
-          </Field>
+          {form.status === "live" && (
+            <>
+              <Field label="Platform">
+                <input style={inputStyle} value={form.platform} placeholder="Google Play Store"
+                  onChange={(e) => set("platform", e.target.value)}
+                  onFocus={(e) => (e.target.style.borderColor = "#7c6af7")}
+                  onBlur={(e) => (e.target.style.borderColor = "#252538")}
+                />
+              </Field>
+              <Field label="Store URL">
+                <input style={inputStyle} value={form.storeUrl ?? ""} placeholder="https://play.google.com/…"
+                  onChange={(e) => set("storeUrl", e.target.value)}
+                  onFocus={(e) => (e.target.style.borderColor = "#7c6af7")}
+                  onBlur={(e) => (e.target.style.borderColor = "#252538")}
+                />
+              </Field>
+            </>
+          )}
+          {form.status === "testing" && (
+            <>
+              <Field label="Testing Link" hint="Google Group join URL for closed testing">
+                <input style={inputStyle} value={form.testingLink ?? ""} placeholder="https://groups.google.com/…"
+                  onChange={(e) => set("testingLink", e.target.value)}
+                  onFocus={(e) => (e.target.style.borderColor = "#7c6af7")}
+                  onBlur={(e) => (e.target.style.borderColor = "#252538")}
+                />
+              </Field>
+              <Field label="Store URL">
+                <input style={inputStyle} value={form.storeUrl ?? ""} placeholder="https://play.google.com/…"
+                  onChange={(e) => set("storeUrl", e.target.value)}
+                  onFocus={(e) => (e.target.style.borderColor = "#7c6af7")}
+                  onBlur={(e) => (e.target.style.borderColor = "#252538")}
+                />
+              </Field>
+            </>
+          )}
+          {form.status === "archived" && (
+            <Field label="Store URL">
+              <input style={inputStyle} value={form.storeUrl ?? ""} placeholder="https://play.google.com/…"
+                onChange={(e) => set("storeUrl", e.target.value)}
+                onFocus={(e) => (e.target.style.borderColor = "#7c6af7")}
+                onBlur={(e) => (e.target.style.borderColor = "#252538")}
+              />
+            </Field>
+          )}
           <Field label="Display Order">
             <input type="number" style={inputStyle} value={form.displayOrder}
               onChange={(e) => set("displayOrder", Number(e.target.value))}

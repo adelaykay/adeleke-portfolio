@@ -67,6 +67,13 @@ export function AIChatGuide() {
           { role: "assistant", content: aiContent },
         ]);
       }
+
+      // Flush any remaining bytes from the decoder
+      aiContent += decoder.decode();
+      setMessages((prev) => [
+        ...prev.slice(0, -1),
+        { role: "assistant", content: aiContent },
+      ]);
     } catch {
       setMessages((prev) => [
         ...prev,

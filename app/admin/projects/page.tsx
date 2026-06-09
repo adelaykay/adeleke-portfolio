@@ -65,7 +65,11 @@ export default function AdminProjectsPage() {
                 <tr key={p.id}>
                   <td style={{ ...tdS, color: "#505070", width: "40px" }}>{p.displayOrder}</td>
                   <td style={tdS}>
-                    <span style={{ marginRight: "8px" }}>{p.icon}</span>
+                    {typeof p.icon === "string" && p.icon.startsWith("http") ? (
+                      <img src={p.icon} alt={p.name} width={20} height={20} />
+                    ) : (
+                      <span style={{ marginRight: "8px" }}>{p.icon}</span>
+                    )}
                     {p.name}
                     {p.isNda && (
                       <span style={{ marginLeft: "8px", fontSize: "10px", padding: "2px 6px", borderRadius: "4px", background: "rgba(246,173,85,0.1)", color: "#f6ad55" }}>

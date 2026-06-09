@@ -62,9 +62,14 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
             <div className="flex items-start justify-between mb-4">
               <div
                 className="w-10 h-10 rounded-lg flex items-center justify-center text-lg flex-shrink-0"
-                style={{ background: project.color + "18", border: `1px solid ${project.color}35` }}
+                style={{ background: project.color + "18", border: `1px solid ${project.color}35`, overflow: "hidden" }}
               >
-                {project.icon}
+                {typeof project.icon === "string" && project.icon.startsWith("http") ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={project.icon} alt={project.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                ) : (
+                  <span>{project.icon}</span>
+                )}
               </div>
               <StatusBadge status={project.status} />
             </div>

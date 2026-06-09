@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     const prompt = `${PORTFOLIO_AI_CONTEXT}\n\n${historyText ? `Previous conversation:\n${historyText}\n` : ""}User: ${lastUserMessage}\nAssistant:`;
 
     const stream = await genAI.models.generateContentStream({
-      model: "gemini-1.5-flash",
+      model: "gemini-3.5-flash",
       contents: [{ role: "user", parts: [{ text: prompt }] }],
       config: { maxOutputTokens: 350, temperature: 0.7 },
     });

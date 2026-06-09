@@ -10,6 +10,7 @@ export interface Project {
   status: ProjectStatus;
   platform: string;
   storeUrl?: string;
+  testingLink?: string;
   isNda: boolean;
   isPublished: boolean;
   displayOrder: number;
