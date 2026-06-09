@@ -1,79 +1,40 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/*
- * Tailwind v4 — theme tokens defined via @theme so the compiler
- * knows about them and can generate utilities from them.
- * Custom CSS variables are kept in :root for runtime use.
- */
-
-@theme {
-  --font-display: "Syne", sans-serif;
-  --font-body: "DM Sans", sans-serif;
-
-  --color-bg:       #09090f;
-  --color-bg2:      #0e0e18;
-  --color-bg3:      #13131f;
-  --color-surface:  #18182a;
-  --color-surface2: #1e1e30;
-  --color-border:   #252538;
-  --color-border2:  #2e2e48;
-  --color-text:     #e2e2f0;
-  --color-text2:    #9090b0;
-  --color-text3:    #505070;
-  --color-accent:   #7c6af7;
-  --color-accent2:  #4fd1c5;
-  --color-accent3:  #f6ad55;
-  --color-live:     #4ade80;
-  --color-testing:  #fb923c;
-}
-
-/* Runtime CSS variables — used inline via style={{ }} props */
+/* Runtime CSS variables — used by inline style={{ }} props */
 :root {
-  --bg:           #09090f;
-  --bg2:          #0e0e18;
-  --bg3:          #13131f;
-  --surface:      #18182a;
-  --surface2:     #1e1e30;
-  --border:       #252538;
-  --border2:      #2e2e48;
-  --text:         #e2e2f0;
-  --text2:        #9090b0;
-  --text3:        #505070;
-  --accent:       #7c6af7;
-  --accent-glow:  rgba(124, 106, 247, 0.15);
-  --accent2:      #4fd1c5;
-  --accent3:      #f6ad55;
-  --live:         #4ade80;
-  --live-bg:      rgba(74, 222, 128, 0.1);
-  --testing:      #fb923c;
-  --testing-bg:   rgba(251, 146, 60, 0.1);
+  --bg:          #09090f;
+  --bg2:         #0e0e18;
+  --bg3:         #13131f;
+  --surface:     #18182a;
+  --surface2:    #1e1e30;
+  --border:      #252538;
+  --border2:     #2e2e48;
+  --text:        #e2e2f0;
+  --text2:       #9090b0;
+  --text3:       #505070;
+  --accent:      #7c6af7;
+  --accent-glow: rgba(124, 106, 247, 0.15);
+  --accent2:     #4fd1c5;
+  --accent3:     #f6ad55;
+  --live:        #4ade80;
+  --live-bg:     rgba(74, 222, 128, 0.1);
+  --testing:     #fb923c;
+  --testing-bg:  rgba(251, 146, 60, 0.1);
 }
 
-/* ─── Google Fonts — loaded via <link> in layout.tsx, not @import ──────────── */
-
-/* ─── Base resets ─────────────────────────────────────────────────────────── */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   background-color: #09090f;
   color: #e2e2f0;
-  font-family: "DM Sans", sans-serif;
-  font-size: 15px;
-  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* ─── Noise grain overlay ─────────────────────────────────────────────────── */
+/* Noise grain */
 body::before {
   content: "";
   position: fixed;
@@ -86,44 +47,24 @@ body::before {
   background-size: 128px 128px;
 }
 
-/* ─── Scrollbar ───────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: #09090f; }
 ::-webkit-scrollbar-thumb { background: #252538; border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: #7c6af7; }
 
-/* ─── Focus ring ──────────────────────────────────────────────────────────── */
-:focus-visible {
-  outline: 2px solid #7c6af7;
-  outline-offset: 2px;
-  border-radius: 4px;
-}
+::selection { background: rgba(124, 106, 247, 0.3); color: #e2e2f0; }
+:focus-visible { outline: 2px solid #7c6af7; outline-offset: 2px; border-radius: 4px; }
 
-/* ─── Selection ───────────────────────────────────────────────────────────── */
-::selection {
-  background: rgba(124, 106, 247, 0.3);
-  color: #e2e2f0;
-}
-
-/* ─── Typography ──────────────────────────────────────────────────────────── */
-.font-display { font-family: "Syne", sans-serif; }
-.font-body    { font-family: "DM Sans", sans-serif; }
-
-/* ─── Form resets ─────────────────────────────────────────────────────────── */
-input, textarea, select, button { font-family: inherit; }
-img { max-width: 100%; height: auto; }
-
-/* ─── Hero radial glow ────────────────────────────────────────────────────── */
+/* Hero glow */
 .hero-glow {
   position: absolute;
-  width: 600px;
-  height: 600px;
+  width: 600px; height: 600px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(124, 106, 247, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(124,106,247,0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 
-/* ─── Grid background ─────────────────────────────────────────────────────── */
+/* Grid bg */
 .grid-bg {
   background-image:
     linear-gradient(#252538 1px, transparent 1px),
@@ -132,19 +73,11 @@ img { max-width: 100%; height: auto; }
   mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
 }
 
-/* ─── Status badges ───────────────────────────────────────────────────────── */
-.badge-live {
-  background: rgba(74, 222, 128, 0.1);
-  color: #4ade80;
-  border: 1px solid rgba(74, 222, 128, 0.2);
-}
-.badge-testing {
-  background: rgba(251, 146, 60, 0.1);
-  color: #fb923c;
-  border: 1px solid rgba(251, 146, 60, 0.2);
-}
+/* Status badges */
+.badge-live    { background: rgba(74,222,128,0.1);  color: #4ade80; border: 1px solid rgba(74,222,128,0.2); }
+.badge-testing { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.2); }
 
-/* ─── Admin form inputs ───────────────────────────────────────────────────── */
+/* Admin inputs */
 .admin-input {
   width: 100%;
   background: #13131f;
@@ -160,14 +93,9 @@ img { max-width: 100%; height: auto; }
 .admin-input::placeholder { color: #505070; }
 textarea.admin-input { resize: vertical; min-height: 100px; }
 
-/* ─── Pulse animation ─────────────────────────────────────────────────────── */
+/* Pulse */
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4); }
-  50%       { box-shadow: 0 0 0 6px rgba(74, 222, 128, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.4); }
+  50%       { box-shadow: 0 0 0 6px rgba(74,222,128,0); }
 }
 .pulse-dot { animation: pulse-glow 2s ease infinite; }
-
-/* ─── Tailwind v4: explicit source scanning for all component files ──────── */
-@source "../components/**/*.{tsx,ts}";
-@source "../app/**/*.{tsx,ts}";
-@source "../lib/**/*.{tsx,ts}";
