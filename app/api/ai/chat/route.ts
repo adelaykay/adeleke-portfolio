@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     const prompt = `${PORTFOLIO_AI_CONTEXT}\n\n${historyText ? `Previous conversation:\n${historyText}\n` : ""}User: ${lastUserMessage}\nAssistant:`;
 
     const stream = await genAI.models.generateContentStream({
-      model: "gemini-3.5-flash",
+      model: "gemini-3.1-flash-lite",
       contents: [{ role: "user", parts: [{ text: prompt }] }],
       config: { maxOutputTokens: 350, temperature: 0.7 },
     });
@@ -39,14 +39,20 @@ export async function POST(req: NextRequest) {
       async start(controller) {
         try {
           for await (const chunk of stream) {
-            // chunk.text is a property (string), not a method in @google/genai
-            const text = typeof chunk.text === "function"
-              ? (chunk.text as () => string)()
-              : (chunk.text as string | undefined) ?? "";
+            // Extract text from the chunk
+            let text = "";
+            if (chunk.candidates && chunk.candidates[0]) {
+              const candidate = chunk.candidates[0];
+              if (candidate.content && candidate.content.parts && candidate.content.parts[0]) {
+                text = candidate.content.parts[0].text || "";
+              }
+            }
             if (text) {
               controller.enqueue(encoder.encode(text));
             }
           }
+        } catch (err) {
+          console.error("Stream error:", err);
         } finally {
           controller.close();
         }

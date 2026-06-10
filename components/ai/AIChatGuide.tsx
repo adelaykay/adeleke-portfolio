@@ -27,7 +27,11 @@ export function AIChatGuide() {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    // Only scroll when there's actual user interaction (messages > 1)
+    // This prevents scrolling on initial mount and after navigation back to home
+    if (messages.length > 1) {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   }, [messages, loading]);
 
   async function send(text?: string) {

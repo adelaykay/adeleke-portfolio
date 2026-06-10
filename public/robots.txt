@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://adeleke.web.app/sitemap.xml
+Host: https://adeleke.web.app

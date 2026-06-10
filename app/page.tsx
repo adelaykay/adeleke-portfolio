@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/hero/HeroSection";
@@ -5,6 +6,35 @@ import { ProjectGrid } from "@/components/projects/ProjectGrid";
 import { AIChatGuide } from "@/components/ai/AIChatGuide";
 import { adminGetAllProjects } from "@/lib/firebase/admin";
 import type { Project } from "@/types/project";
+
+export const metadata: Metadata = {
+  title: "Adeleke Olasope — AI-Powered Full-Stack Developer",
+  description:
+    "Adeleke Olasope builds AI-powered web and mobile products for African and global users. Explore projects, skills, and availability.",
+  openGraph: {
+    title: "Adeleke Olasope — AI-Powered Full-Stack Developer",
+    description:
+      "Adeleke Olasope builds AI-powered web and mobile products for African and global users.",
+    url: "https://adeleke.web.app",
+    siteName: "Adeleke Olasope",
+    type: "website",
+    images: [
+      {
+        url: "/portrait.png",
+        width: 1200,
+        height: 1200,
+        alt: "Portrait of Adeleke Olasope",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Adeleke Olasope — AI-Powered Full-Stack Developer",
+    description:
+      "Adeleke Olasope builds AI-powered web and mobile products for African and global users.",
+    images: ["/portrait.png"],
+  },
+};
 
 export const revalidate = 60;
 
@@ -17,10 +47,33 @@ export default async function HomePage() {
     // Firebase not yet configured — empty state shown
   }
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    url: "https://adeleke.web.app",
+    name: "Adeleke Olasope",
+    description:
+      "Adeleke Olasope builds AI-powered web and mobile products for African and global users.",
+    publisher: {
+      "@type": "Person",
+      name: "Adeleke Olasope",
+      url: "https://adeleke.web.app",
+    },
+    sameAs: [
+      "https://github.com/adelaykay",
+      "https://www.linkedin.com/in/adeleke-olasope-0a097b19b/",
+    ],
+  };
+
   return (
     <>
       <Navbar />
       <main>
+        <script
+          type="application/ld+json"
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <HeroSection />
 
         {/* ── Projects ──────────────────────────────────────────────── */}

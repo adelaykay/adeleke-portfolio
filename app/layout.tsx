@@ -3,6 +3,7 @@ import "./globals.css";
 import { FirebaseProvider } from "@/components/providers/FirebaseProvider";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://adeleke.web.app"),
   title: "Adeleke Olasope — Full-Stack Developer",
   description:
     "Full-stack developer and entrepreneur building AI-powered products for African and global markets. Founder of Empyreal Works.",
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
     "Adeleke Olasope",
     "Empyreal Works",
     "Full-Stack Developer",
+    "AI Portfolio",
     "React Native",
     "Next.js",
     "Firebase",
@@ -23,11 +25,33 @@ export const metadata: Metadata = {
     url: "https://adeleke.web.app",
     siteName: "Adeleke Olasope",
     type: "website",
+    images: [
+      {
+        url: "/portrait.png",
+        width: 1200,
+        height: 1200,
+        alt: "Portrait of Adeleke Olasope",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Adeleke Olasope — Full-Stack Developer",
     description: "Building AI-powered products for African and global markets.",
+    images: ["/portrait.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
+  icons: {
+    icon: "/favicon-32x32.png",
+    shortcut: "/favicon-16x16.png",
+    apple: "/apple-touch-icon.png",
   },
 };
 

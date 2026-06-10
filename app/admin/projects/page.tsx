@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getAllProjects, deleteProject } from "@/lib/firebase/firestore";
 import type { Project } from "@/types/project";
+import Image from "next/image";
 
 export default function AdminProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -66,7 +67,7 @@ export default function AdminProjectsPage() {
                   <td style={{ ...tdS, color: "#505070", width: "40px" }}>{p.displayOrder}</td>
                   <td style={tdS}>
                     {typeof p.icon === "string" && p.icon.startsWith("http") ? (
-                      <img src={p.icon} alt={p.name} width={20} height={20} />
+                      <Image src={p.icon} alt={p.name} width={20} height={20} />
                     ) : (
                       <span style={{ marginRight: "8px" }}>{p.icon}</span>
                     )}

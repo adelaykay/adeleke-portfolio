@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getAllProjects } from "@/lib/firebase/firestore";
 import type { Project } from "@/types/project";
+import Image from "next/image";
 
 const S = {
   h1: { fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "24px", letterSpacing: "-0.5px", color: "#e2e2f0", marginBottom: "4px" } as React.CSSProperties,
@@ -87,7 +88,7 @@ export default function AdminDashboard() {
               {projects.map((p) => (
                 <tr key={p.id}>
                   <td style={S.td}>
-                    <span style={{ marginRight: "8px" }}>{p.icon}</span>{p.name}
+                    <span ><Image src={p.icon} alt={p.name} width={20} height={20} /></span>{p.name}
                   </td>
                   <td style={S.td}>
                     <span className={p.status === "live" ? "badge-live" : "badge-testing"}

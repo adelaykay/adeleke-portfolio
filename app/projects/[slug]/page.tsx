@@ -26,9 +26,40 @@ export async function generateMetadata({
   try {
     const project = await adminGetProjectBySlug(slug);
     if (!project) return { title: "Project Not Found" };
+
+    const imageUrl = project.icon?.toString().startsWith("http")
+      ? project.icon
+      : "https://adeleke.web.app/portrait.png";
+
     return {
       title: `${project.name} — Adeleke Olasope`,
       description: project.shortDesc,
+      keywords: [
+        "Adeleke Olasope",
+        "Empyreal Works",
+        project.name,
+        project.platform,
+        "AI app",
+      ].filter(Boolean),
+      openGraph: {
+        title: `${project.name} — Adeleke Olasope`,
+        description: project.shortDesc,
+        url: `https://adeleke.web.app/projects/${project.slug}`,
+        siteName: "Adeleke Olasope",
+        type: "article",
+        images: [
+          {
+            url: imageUrl,
+            alt: project.name,
+          },
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `${project.name} — Adeleke Olasope`,
+        description: project.shortDesc,
+        images: [imageUrl],
+      },
     };
   } catch {
     return { title: "Project" };
@@ -50,6 +81,26 @@ export default async function ProjectPage({
   }
 
   if (!project) notFound();
+
+  const imageUrl = project.icon?.toString().startsWith("http")
+    ? project.icon
+    : "https://adeleke.web.app/portrait.png";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: project.name,
+    description: project.shortDesc,
+    url: `https://adeleke.web.app/projects/${project.slug}`,
+    image: imageUrl,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: project.platform || "Web",
+    author: {
+      "@type": "Person",
+      name: "Adeleke Olasope",
+      url: "https://adeleke.web.app",
+    },
+  };
 
   const journeySteps = [
     {
@@ -74,6 +125,11 @@ export default async function ProjectPage({
     <>
       <Navbar />
       <main className="max-w-4xl mx-auto px-6 py-16">
+        <script
+          type="application/ld+json"
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         {/* Back */}
         <Link
           href="/#projects"
