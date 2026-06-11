@@ -71,7 +71,7 @@ export function HeroSection() {
             {[
               { label: "GitHub",    href: "https://github.com/adelaykay" },
               { label: "LinkedIn",  href: "https://www.linkedin.com/in/adeleke-olasope-0a097b19b/" },
-              { label: "Portfolio", href: "https://adeleke.web.app" },
+              { label: "Portfolio", href: "https://adeleke.empyrealworks.com" },
             ].map((l) => (
               <a
                 key={l.href}

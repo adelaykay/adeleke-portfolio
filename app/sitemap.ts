@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 import { adminGetAllProjects } from "@/lib/firebase/admin";
 
-const BASE_URL = "https://adeleke.web.app";
+const BASE_URL = "https://adeleke.empyrealworks.com";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const sitemap: MetadataRoute.Sitemap = [

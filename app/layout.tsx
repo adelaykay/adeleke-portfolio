@@ -3,7 +3,7 @@ import "./globals.css";
 import { FirebaseProvider } from "@/components/providers/FirebaseProvider";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://adeleke.web.app"),
+  metadataBase: new URL("https://adeleke.empyrealworks.com"),
   title: "Adeleke Olasope — Full-Stack Developer",
   description:
     "Full-stack developer and entrepreneur building AI-powered products for African and global markets. Founder of Empyreal Works.",
@@ -18,11 +18,11 @@ export const metadata: Metadata = {
     "Nigeria",
     "Lagos",
   ],
-  authors: [{ name: "Adeleke Olasope", url: "https://adeleke.web.app" }],
+  authors: [{ name: "Adeleke Olasope", url: "https://adeleke.empyrealworks.com" }],
   openGraph: {
     title: "Adeleke Olasope — Full-Stack Developer",
     description: "Building AI-powered products for African and global markets.",
-    url: "https://adeleke.web.app",
+    url: "https://adeleke.empyrealworks.com",
     siteName: "Adeleke Olasope",
     type: "website",
     images: [

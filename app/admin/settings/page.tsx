@@ -92,7 +92,7 @@ export default function AdminSettingsPage() {
         <h2 style={S.h2}>Deployment Info</h2>
         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
           {[
-            ["Hosting",  "Firebase Hosting (adeleke.web.app)"],
+            ["Hosting",  "Firebase Hosting (adeleke.empyrealworks.com)"],
             ["Database", "Cloud Firestore"],
             ["Auth",     "Firebase Auth — Email/Password"],
             ["AI",       "Google Gemini 1.5 Flash"],

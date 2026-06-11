@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: "Adeleke Olasope — AI-Powered Full-Stack Developer",
     description:
       "Adeleke Olasope builds AI-powered web and mobile products for African and global users.",
-    url: "https://adeleke.web.app",
+    url: "https://adeleke.empyrealworks.com",
     siteName: "Adeleke Olasope",
     type: "website",
     images: [
@@ -50,14 +50,14 @@ export default async function HomePage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    url: "https://adeleke.web.app",
+    url: "https://adeleke.empyrealworks.com",
     name: "Adeleke Olasope",
     description:
       "Adeleke Olasope builds AI-powered web and mobile products for African and global users.",
     publisher: {
       "@type": "Person",
       name: "Adeleke Olasope",
-      url: "https://adeleke.web.app",
+      url: "https://adeleke.empyrealworks.com",
     },
     sameAs: [
       "https://github.com/adelaykay",

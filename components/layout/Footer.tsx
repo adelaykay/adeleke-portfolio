@@ -29,7 +29,7 @@ export function Footer() {
             color: "#505070",
           }}
         >
-          adeleke.web.app
+          adeleke.empyrealworks.com
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "24px", flexWrap: "wrap", justifyContent: "center" }}>
           {[

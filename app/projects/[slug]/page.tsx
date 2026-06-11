@@ -29,7 +29,7 @@ export async function generateMetadata({
 
     const imageUrl = project.icon?.toString().startsWith("http")
       ? project.icon
-      : "https://adeleke.web.app/portrait.png";
+      : "https://adeleke.empyrealworks.com/portrait.png";
 
     return {
       title: `${project.name} — Adeleke Olasope`,
@@ -44,7 +44,7 @@ export async function generateMetadata({
       openGraph: {
         title: `${project.name} — Adeleke Olasope`,
         description: project.shortDesc,
-        url: `https://adeleke.web.app/projects/${project.slug}`,
+        url: `https://adeleke.empyrealworks.com/projects/${project.slug}`,
         siteName: "Adeleke Olasope",
         type: "article",
         images: [
@@ -84,21 +84,21 @@ export default async function ProjectPage({
 
   const imageUrl = project.icon?.toString().startsWith("http")
     ? project.icon
-    : "https://adeleke.web.app/portrait.png";
+    : "https://adeleke.empyrealworks.com/portrait.png";
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: project.name,
     description: project.shortDesc,
-    url: `https://adeleke.web.app/projects/${project.slug}`,
+    url: `https://adeleke.empyrealworks.com/projects/${project.slug}`,
     image: imageUrl,
     applicationCategory: "BusinessApplication",
     operatingSystem: project.platform || "Web",
     author: {
       "@type": "Person",
       name: "Adeleke Olasope",
-      url: "https://adeleke.web.app",
+      url: "https://adeleke.empyrealworks.com",
     },
   };
 
