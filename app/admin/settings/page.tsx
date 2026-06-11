@@ -4,7 +4,7 @@ import { useState } from "react";
 import { auth } from "@/lib/firebase/auth";
 
 const S = {
-  card: { borderRadius: "12px", border: "1px solid #252538", padding: "24px", background: "#18182a", marginBottom: "16px" } as React.CSSProperties,
+  card: { borderRadius: "12px", border: "1px solid #252538", padding: "20px", background: "#18182a", marginBottom: "16px" } as React.CSSProperties,
   h2: { fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: "14px", color: "#e2e2f0", marginBottom: "8px" } as React.CSSProperties,
   p: { fontSize: "13px", color: "#9090b0", lineHeight: 1.7, marginBottom: "16px" } as React.CSSProperties,
 };
@@ -34,7 +34,7 @@ export default function AdminSettingsPage() {
   }
 
   return (
-    <div style={{ maxWidth: "640px" }}>
+    <div style={{ maxWidth: "640px", width: "100%" }}>
       <div style={{ marginBottom: "32px" }}>
         <h1 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "24px", letterSpacing: "-0.5px", color: "#e2e2f0", marginBottom: "4px" }}>
           Settings
@@ -48,7 +48,7 @@ export default function AdminSettingsPage() {
         <p style={S.p}>
           Populate Firestore with the 7 initial portfolio projects. Only runs if the collection is currently empty — safe to click at any time.
         </p>
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
           <button
             onClick={handleSeed}
             disabled={seeding}
@@ -63,6 +63,9 @@ export default function AdminSettingsPage() {
               cursor: seeding ? "not-allowed" : "pointer",
               opacity: seeding ? 0.6 : 1,
               fontFamily: "inherit",
+              minHeight: "44px",
+              display: "flex",
+              alignItems: "center",
             }}
           >
             {seeding ? "Seeding…" : "Seed Projects"}
@@ -79,7 +82,7 @@ export default function AdminSettingsPage() {
       <div style={S.card}>
         <h2 style={S.h2}>Authentication</h2>
         <p style={{ ...S.p, marginBottom: "8px" }}>Signed in as:</p>
-        <code style={{ fontSize: "12px", padding: "6px 12px", borderRadius: "6px", background: "#13131f", color: "#7c6af7", border: "1px solid #252538" }}>
+        <code style={{ fontSize: "12px", padding: "8px 12px", borderRadius: "6px", background: "#13131f", color: "#7c6af7", border: "1px solid #252538", display: "block", overflow: "auto", WebkitOverflowScrolling: "touch" }}>
           {auth.currentUser?.email ?? "—"}
         </code>
       </div>
@@ -94,7 +97,7 @@ export default function AdminSettingsPage() {
             ["Auth",     "Firebase Auth — Email/Password"],
             ["AI",       "Google Gemini 1.5 Flash"],
           ].map(([k, v]) => (
-            <div key={k} style={{ display: "flex", justifyContent: "space-between", fontSize: "13px" }}>
+            <div key={k} style={{ display: "flex", justifyContent: "space-between", fontSize: "13px", flexWrap: "wrap", gap: "12px" }}>
               <span style={{ color: "#505070" }}>{k}</span>
               <span style={{ color: "#9090b0" }}>{v}</span>
             </div>

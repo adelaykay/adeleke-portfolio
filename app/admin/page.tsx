@@ -36,7 +36,12 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stats */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "12px", marginBottom: "40px" }}>
+      <div style={{ 
+        display: "grid", 
+        gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+        gap: "12px", 
+        marginBottom: "40px" 
+      }}>
         {[
           { label: "Total", value: loading ? "—" : projects.length, color: "#e2e2f0" },
           { label: "Live",  value: loading ? "—" : live,  color: "#4ade80" },
@@ -53,19 +58,45 @@ export default function AdminDashboard() {
       </div>
 
       {/* Table header */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
+      <div className="header-flex" style={{ 
+        display: "flex", 
+        alignItems: "center", 
+        justifyContent: "space-between", 
+        marginBottom: "16px",
+        flexDirection: "column",
+        gap: "12px",
+      }}>
         <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: "14px", color: "#e2e2f0" }}>
           Projects
         </h2>
         <Link
           href="/admin/projects/new"
-          style={{ fontSize: "12px", padding: "8px 16px", borderRadius: "8px", background: "#7c6af7", color: "#fff", textDecoration: "none", fontWeight: 500 }}
+          style={{ 
+            fontSize: "12px", 
+            padding: "8px 16px", 
+            borderRadius: "8px", 
+            background: "#7c6af7", 
+            color: "#fff", 
+            textDecoration: "none", 
+            fontWeight: 500,
+            minHeight: "44px",
+            display: "flex",
+            alignItems: "center",
+            width: "100%",
+            justifyContent: "center",
+          }}
         >
           + New Project
         </Link>
       </div>
 
-      <div style={{ borderRadius: "12px", border: "1px solid #252538", overflow: "hidden", background: "#0e0e18" }}>
+      <div style={{ 
+        borderRadius: "12px", 
+        border: "1px solid #252538", 
+        overflow: "auto", 
+        background: "#0e0e18",
+        WebkitOverflowScrolling: "touch",
+      }}>
         {loading ? (
           <div style={{ padding: "40px", textAlign: "center", color: "#505070", fontSize: "13px" }}>
             Loading…
@@ -80,7 +111,7 @@ export default function AdminDashboard() {
             <thead>
               <tr>
                 {["Project", "Status", "Platform", "Published", ""].map((h) => (
-                  <th key={h} style={S.th}>{h}</th>
+                  <th key={h} style={{ ...S.th, display: h === "Platform" ? "none" : "table-cell" }}>{h}</th>
                 ))}
               </tr>
             </thead>
@@ -88,7 +119,14 @@ export default function AdminDashboard() {
               {projects.map((p) => (
                 <tr key={p.id}>
                   <td style={S.td}>
-                    <span ><Image src={p.icon} alt={p.name} width={20} height={20} /></span>{p.name}
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: "10px" }}>
+                      {typeof p.icon === "string" && p.icon.startsWith("http") ? (
+                        <Image src={p.icon} alt={p.name} width={20} height={20} />
+                      ) : (
+                        <span style={{ fontSize: "16px" }}>{p.icon}</span>
+                      )}
+                      <span>{p.name}</span>
+                    </div>
                   </td>
                   <td style={S.td}>
                     <span className={p.status === "live" ? "badge-live" : "badge-testing"}
@@ -96,7 +134,7 @@ export default function AdminDashboard() {
                       {p.status}
                     </span>
                   </td>
-                  <td style={{ ...S.td, color: "#9090b0" }}>{p.platform}</td>
+                  <td style={{ ...S.td, color: "#9090b0", display: "none" }}>{p.platform}</td>
                   <td style={{ ...S.td, color: p.isPublished ? "#4ade80" : "#505070" }}>
                     {p.isPublished ? "Yes" : "Draft"}
                   </td>
@@ -111,6 +149,23 @@ export default function AdminDashboard() {
           </table>
         )}
       </div>
+
+      <style>{`
+        @media (min-width: 640px) {
+          .header-flex {
+            flex-direction: row !important;
+            align-items: center !important;
+          }
+          .header-flex a {
+            width: auto !important;
+          }
+        }
+        @media (min-width: 768px) {
+          th, td {
+            display: table-cell !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }

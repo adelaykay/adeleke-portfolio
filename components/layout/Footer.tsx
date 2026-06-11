@@ -3,6 +3,7 @@
 export function Footer() {
   return (
     <footer
+      className="page-footer"
       style={{
         borderTop: "1px solid #252538",
         padding: "32px 24px",
@@ -30,7 +31,7 @@ export function Footer() {
         >
           adeleke.web.app
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "24px", flexWrap: "wrap", justifyContent: "center" }}>
           {[
             { label: "GitHub",   href: "https://github.com/adelaykay" },
             { label: "LinkedIn", href: "https://www.linkedin.com/in/adeleke-olasope-0a097b19b/" },
@@ -57,6 +58,15 @@ export function Footer() {
           </span>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 640px) {
+          .page-footer {
+            padding: 24px 12px !important;
+            margin-top: 32px !important;
+          }
+        }
+      `}</style>
     </footer>
   );
 }

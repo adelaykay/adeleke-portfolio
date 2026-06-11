@@ -79,6 +79,7 @@ export default async function HomePage() {
         {/* ── Projects ──────────────────────────────────────────────── */}
         <section
           id="projects"
+          className="page-section"
           style={{ maxWidth: "960px", margin: "0 auto", padding: "80px 24px" }}
         >
           <div
@@ -129,6 +130,7 @@ export default async function HomePage() {
         {/* ── About ─────────────────────────────────────────────────── */}
         <section
           id="about"
+          className="page-section"
           style={{
             maxWidth: "960px",
             margin: "0 auto",
@@ -161,6 +163,7 @@ export default async function HomePage() {
           </div>
 
           <div
+            className="about-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
@@ -201,9 +204,9 @@ export default async function HomePage() {
               ))}
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+            <div className="skills-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               {[
-                { label: "Core Stack", value: "Next.js · React Native · Firebase" },
+                { label: "Core Stack", value: "Next.js · React Native · Flutter · Firebase" },
                 { label: "AI Tools",   value: "Gemini · Whisper · LLM APIs" },
                 { label: "Payments",   value: "Paystack · Stripe" },
                 { label: "Location",   value: "Lagos, Nigeria 🇳🇬" },
@@ -271,7 +274,7 @@ export default async function HomePage() {
             <div style={{ flex: 1, height: "1px", background: "#252538" }} />
           </div>
 
-          <div style={{ maxWidth: "600px" }}>
+          <div style={{ maxWidth: "960px" }}>
             <p
               style={{
                 fontSize: "14px",
@@ -288,6 +291,29 @@ export default async function HomePage() {
         </section>
       </main>
       <Footer />
+
+      <style>{`
+        @media (max-width: 768px) {
+          section {
+            padding: 60px 16px !important;
+          }
+          .about-grid {
+            grid-template-columns: 1fr !important;
+            gap: 32px !important;
+          }
+          .skills-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+        @media (max-width: 640px) {
+          section {
+            padding: 48px 12px !important;
+          }
+          .about-grid {
+            gap: 24px !important;
+          }
+        }
+      `}</style>
     </>
   );
 }

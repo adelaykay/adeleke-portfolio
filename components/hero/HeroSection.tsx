@@ -22,7 +22,12 @@ export function HeroSection() {
       <div className="relative max-w-5xl mx-auto px-6 pt-20 pb-24 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-14 items-center">
 
         {/* Left — text */}
-        <motion.div variants={container} initial="hidden" animate="visible">
+        <motion.div 
+          variants={container} 
+          initial="hidden" 
+          animate="visible"
+          className="relative z-10" // Added z-10 to ensure text stays above the mobile portrait
+        >
 
           <motion.div variants={item} className="flex items-center gap-2 mb-5">
             <div className="w-1.5 h-1.5 rounded-full bg-accent" />
@@ -82,14 +87,15 @@ export function HeroSection() {
         </motion.div>
 
         {/* Right — avatar */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1,    y: 0 }}
-          transition={{ delay: 0.35, duration: 0.6, ease: "easeOut" }}
-          className="hidden lg:block"
-        >
-          <AvatarCard />
-        </motion.div>
+        <div className="absolute -right-12 top-16 w-[280px] opacity-15 pointer-events-none z-0 lg:relative lg:right-auto lg:top-auto lg:w-full lg:opacity-100 lg:pointer-events-auto lg:z-10">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1,    y: 0 }}
+            transition={{ delay: 0.35, duration: 0.6, ease: "easeOut" }}
+          >
+            <AvatarCard />
+          </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -125,14 +125,14 @@ export function ProjectEditor({ project, mode }: ProjectEditorProps) {
   const textareaStyle: React.CSSProperties = { ...inputStyle, resize: "vertical", minHeight: "90px" };
 
   return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: "760px" }}>
+    <form onSubmit={handleSubmit} style={{ maxWidth: "760px", width: "100%", paddingLeft: "0", paddingRight: "0" }}>
 
       {/* Basic info */}
       <div style={sectionStyle}>
         <h3 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: "14px", color: "#e2e2f0", marginBottom: "20px" }}>
           Basic Info
         </h3>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+        <div className="form-grid" style={{ display: "grid", gridTemplateColumns: "1fr", gap: "16px" }}>
           <Field label="Project Name">
             <input style={inputStyle} value={form.name} required placeholder="e.g. BizDocx"
               onChange={(e) => { set("name", e.target.value); if (mode === "create") set("slug", e.target.value.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")); }}
@@ -267,14 +267,14 @@ export function ProjectEditor({ project, mode }: ProjectEditorProps) {
             </Field>
           </div>
         </div>
-        <div style={{ display: "flex", gap: "24px", marginTop: "16px" }}>
+        <div style={{ display: "flex", gap: "24px", marginTop: "16px", flexWrap: "wrap" }}>
           {[
             { key: "isPublished" as const, label: "Published" },
             { key: "isNda" as const, label: "Under NDA (hides tech stack)" },
           ].map(({ key, label }) => (
-            <label key={key} style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontSize: "13px", color: "#9090b0" }}>
+            <label key={key} style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontSize: "13px", color: "#9090b0", minHeight: "44px" }}>
               <input type="checkbox" checked={form[key] as boolean} onChange={(e) => set(key, e.target.checked)}
-                style={{ width: "14px", height: "14px", accentColor: "#7c6af7" }}
+                style={{ width: "14px", height: "14px", accentColor: "#7c6af7", cursor: "pointer" }}
               />
               {label}
             </label>
@@ -325,18 +325,64 @@ export function ProjectEditor({ project, mode }: ProjectEditorProps) {
       </div>
 
       {/* Actions */}
-      <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+      <div className="actions-buttons" style={{ 
+        display: "flex", 
+        alignItems: "center", 
+        gap: "16px",
+        flexDirection: "column",
+      }}>
         <button type="submit" disabled={saving}
-          style={{ padding: "10px 24px", borderRadius: "8px", border: "none", background: "#7c6af7", color: "#fff", fontSize: "13px", fontWeight: 500, cursor: saving ? "not-allowed" : "pointer", opacity: saving ? 0.6 : 1, fontFamily: "inherit" }}>
+          style={{ 
+            padding: "10px 24px", 
+            borderRadius: "8px", 
+            border: "none", 
+            background: "#7c6af7", 
+            color: "#fff", 
+            fontSize: "13px", 
+            fontWeight: 500, 
+            cursor: saving ? "not-allowed" : "pointer", 
+            opacity: saving ? 0.6 : 1, 
+            fontFamily: "inherit",
+            width: "100%",
+            minHeight: "44px",
+          }}>
           {saving ? "Saving…" : mode === "create" ? "Create Project" : "Save Changes"}
         </button>
         <button type="button" onClick={() => router.push("/admin/projects")}
-          style={{ padding: "10px 24px", borderRadius: "8px", border: "1px solid #252538", background: "transparent", color: "#9090b0", fontSize: "13px", cursor: "pointer", fontFamily: "inherit" }}>
+          style={{ 
+            padding: "10px 24px", 
+            borderRadius: "8px", 
+            border: "1px solid #252538", 
+            background: "transparent", 
+            color: "#9090b0", 
+            fontSize: "13px", 
+            cursor: "pointer", 
+            fontFamily: "inherit",
+            width: "100%",
+            minHeight: "44px",
+          }}>
           Cancel
         </button>
         {success && <span style={{ fontSize: "13px", color: "#4ade80" }}>✓ Saved</span>}
         {error && <span style={{ fontSize: "13px", color: "#fb923c" }}>✗ {error}</span>}
       </div>
+
+      <style>{`
+        .form-grid {
+          grid-template-columns: 1fr !important;
+        }
+        @media (min-width: 640px) {
+          .form-grid {
+            grid-template-columns: 1fr 1fr !important;
+          }
+          .actions-buttons {
+            flex-direction: row !important;
+          }
+          .actions-buttons button {
+            width: auto !important;
+          }
+        }
+      `}</style>
     </form>
   );
 }
